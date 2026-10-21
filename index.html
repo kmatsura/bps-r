@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Brain Plus for Sales</title>
+<script>
+(function () {
+  // 転送先の許可リスト。ここにないキーはLPに飛ばす（任意URLへの転送は不可＝踏み台対策）
+  var LINKS = {
+    lp:    'https://plus-zero.co.jp/products/brain-plus-for-sales',
+    doc:   'https://plus-zero.co.jp/products/brain-plus-for-sales', // TODO: 紹介資料のURLに差し替え
+    "case":'https://plus-zero.co.jp/products/brain-plus-for-sales', // TODO: 事例資料のURLに差し替え
+    video: 'https://www.youtube.com/watch?v=nESA5t5EOxc',
+    tx31:  'https://timerex.net/s/plus0/5e750c99',
+    tx30:  'https://timerex.net/s/plus0/ed67f1cd'
+  };
+  var API = 'https://script.google.com/macros/s/AKfycbwH-OgGVUD9J9qVqAeup5W2-NE4yffinUhbOFKaTszwKNGq4VJh90qy0u0ZGPSLC2YI/exec';
+
+  var q = new URLSearchParams(location.search);
+  var l = q.get('l') || 'lp';
+  var dest = Object.prototype.hasOwnProperty.call(LINKS, l) ? LINKS[l] : LINKS.lp;
+  var id = q.get('id');
+
+  // JavaScriptが実行された場合だけ記録する（JSを動かさないセキュリティスキャンは記録されない）
+  if (id) {
+    var url = API + '?id=' + encodeURIComponent(id)
+      + '&m=' + encodeURIComponent(q.get('m') || '')
+      + '&l=' + encodeURIComponent(l)
+      + '&ua=' + encodeURIComponent(navigator.userAgent.slice(0, 300));
+    try {
+      fetch(url, { mode: 'no-cors', keepalive: true, credentials: 'omit' });
+    } catch (e) {
+      new Image().src = url;
+    }
+  }
+  location.replace(dest);
+})();
+</script>
+<noscript><meta http-equiv="refresh" content="0;url=https://plus-zero.co.jp/products/brain-plus-for-sales"></noscript>
+</head>
+<body style="font-family:sans-serif;color:#555;padding:24px">
+<p>ページを移動しています…</p>
+</body>
+</html>
