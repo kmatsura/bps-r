@@ -11,17 +11,22 @@
   // 転送先の許可リスト。ここにないキーはLPに飛ばす（任意URLへの転送は不可＝踏み台対策）
   var LINKS = {
     lp:    'https://plus-zero.co.jp/products/brain-plus-for-sales',
-    doc:   'https://plus-zero.co.jp/products/brain-plus-for-sales', // TODO: 紹介資料のURLに差し替え
-    "case":'https://plus-zero.co.jp/products/brain-plus-for-sales', // TODO: 事例資料のURLに差し替え
-    video: 'https://www.youtube.com/watch?v=nESA5t5EOxc',
-    tx31:  'https://timerex.net/s/plus0/5e750c99',
-    tx30:  'https://timerex.net/s/plus0/ed67f1cd'
+    doc:   'https://drive.google.com/file/d/1hrbUu6Rn3k-6QyilTKwxg282pLDO61bb/view',
+    "case":'https://plus-zero.co.jp/news/media/padOH',
+    video: 'https://www.youtube.com/watch?v=nESA5t5EOxc'
   };
   var API = 'https://script.google.com/macros/s/AKfycbwH-OgGVUD9J9qVqAeup5W2-NE4yffinUhbOFKaTszwKNGq4VJh90qy0u0ZGPSLC2YI/exec';
 
   var q = new URLSearchParams(location.search);
   var l = q.get('l') || 'lp';
-  var dest = Object.prototype.hasOwnProperty.call(LINKS, l) ? LINKS[l] : LINKS.lp;
+  var dest;
+  if (l === 'tx') {
+    // 日程調整：pluszeroのTimeRexページ（8桁の英数字）だけを許可
+    var t = q.get('t') || '';
+    dest = /^[0-9a-z]{8}$/.test(t) ? 'https://timerex.net/s/plus0/' + t : LINKS.lp;
+  } else {
+    dest = Object.prototype.hasOwnProperty.call(LINKS, l) ? LINKS[l] : LINKS.lp;
+  }
   var id = q.get('id');
 
   // JavaScriptが実行された場合だけ記録する（JSを動かさないセキュリティスキャンは記録されない）
